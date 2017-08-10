@@ -1,0 +1,10 @@
+package message;
+
+
+message MessageRequest {
+    optional int32 msg = 1;
+}
+
+message MessageResponse {
+    optional int32 remsg = 1;
+}

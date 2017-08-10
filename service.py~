@@ -1,0 +1,35 @@
+from echo_pb2 import EchoService, Response
+import go.protobuf
+import go.rpc
+
+@go.rpc.index_method
+@go.rpc.impl
+class ServiceImpl(EchoService):
+
+    @go.rpc.ret    
+    def echo(self, controller, request):
+        response = Response()
+        response.msg = request.msg
+        return response
+
+class Server(go.rpc.ServerFactory):
+    def __init__(self):
+        self.service_repository = go.protobuf.ServiceRepository()
+        self.service_repository.register_service(ServiceImpl())
+        listen_addr = ('127.0.0.1', 8007)
+        super(Server, self).__init__(listen_addr, self.service_repository)        
+
+    def connection_made(self, conn, channel):
+        super(Server, self).connection_made(conn, channel)
+
+    def connection_lost(self, conn, reason):
+        super(Server, self).connection_lost(conn, reason)
+
+    def on_start(self):
+        pass
+
+    def on_stop(self):
+        pass
+
+
+Server().serve_forever()

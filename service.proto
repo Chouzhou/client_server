@@ -1,0 +1,8 @@
+package service;
+
+option py_generic_services = true;
+import "message.proto";
+
+service Service {
+    rpc get_msg(message.MessageRequest) returns (message.MessageResponse);
+};
